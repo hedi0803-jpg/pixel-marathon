@@ -1,0 +1,17 @@
+{
+  "name": "像素马拉松",
+  "short_name": "像素马拉松",
+  "description": "情侣纪念日计时器与里程碑小工具",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#253a5e",
+  "theme_color": "#15171f",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

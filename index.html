@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#2b1d1a" />
+    <title>像素马拉松</title>
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand" aria-label="像素马拉松">
+          <span class="brand-mark" aria-hidden="true">PM</span>
+          <div>
+            <h1>像素马拉松</h1>
+            <p id="todayLine">加载中</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-button" id="shareTopButton" type="button" title="分享快照" aria-label="分享快照">⇪</button>
+          <button class="icon-button" id="openStartButton" type="button" title="设置起点" aria-label="设置起点">⚙</button>
+        </div>
+      </header>
+
+      <main>
+        <section class="view active" id="view-home" aria-labelledby="homeTitle">
+          <h2 class="sr-only" id="homeTitle">计时器</h2>
+
+          <section class="timer-board" aria-live="polite">
+            <div class="track-strip" aria-hidden="true">
+              <span class="map-object tree tree-a"></span>
+              <span class="map-object tree tree-b"></span>
+              <span class="map-object tree tree-c"></span>
+              <span class="map-object pond"></span>
+              <span class="map-object cabin"></span>
+              <span class="route-segment route-1"></span>
+              <span class="route-segment route-2"></span>
+              <span class="route-segment route-3"></span>
+              <span class="route-segment route-4"></span>
+              <span class="route-segment route-5"></span>
+              <span class="route-segment route-6"></span>
+              <span class="route-segment route-7"></span>
+              <span class="checkpoint checkpoint-start">♥</span>
+              <span class="checkpoint checkpoint-mid">100</span>
+              <span class="runner duo-runner">
+                <span class="runner-hand"></span>
+                <span class="runner-sprite runner-one">
+                  <span class="runner-cap"></span>
+                  <span class="runner-head"></span>
+                  <span class="runner-face"></span>
+                  <span class="runner-body"></span>
+                  <span class="runner-arm outer-arm"></span>
+                  <span class="runner-leg leg-front"></span>
+                  <span class="runner-leg leg-back"></span>
+                </span>
+                <span class="runner-sprite runner-two">
+                  <span class="runner-cap"></span>
+                  <span class="runner-head"></span>
+                  <span class="runner-face"></span>
+                  <span class="runner-body"></span>
+                  <span class="runner-arm outer-arm"></span>
+                  <span class="runner-leg leg-front"></span>
+                  <span class="runner-leg leg-back"></span>
+                </span>
+              </span>
+              <span class="finish-flag">★</span>
+            </div>
+            <div class="timer-status" id="timerStatus">等待起跑</div>
+            <div class="timer-grid" id="timerGrid">
+              <div class="time-cell">
+                <strong id="yearsValue">--</strong>
+                <span>年</span>
+              </div>
+              <div class="time-cell days-cell">
+                <strong id="daysValue">--</strong>
+                <span>天</span>
+              </div>
+              <div class="time-cell">
+                <strong id="hoursValue">--</strong>
+                <span>时</span>
+              </div>
+              <div class="time-cell">
+                <strong id="minutesValue">--</strong>
+                <span>分</span>
+              </div>
+              <div class="time-cell">
+                <strong id="secondsValue">--</strong>
+                <span>秒</span>
+              </div>
+            </div>
+            <p class="journey-line" id="journeyLine">请先设置你们的第一天。</p>
+            <button class="primary-button wide-button" id="startGuideButton" type="button">设置我们的第一天</button>
+          </section>
+
+          <section class="home-band" id="homeMilestones">
+            <div class="section-title">
+              <h3>下一站</h3>
+              <button class="text-button" type="button" data-tab-jump="milestones">查看全部</button>
+            </div>
+            <div class="mini-list" id="upcomingList"></div>
+          </section>
+
+          <section class="home-band" id="homePolaris">
+            <div class="section-title">
+              <h3>阶段奖励</h3>
+              <button class="text-button" type="button" data-tab-jump="polaris">进入</button>
+            </div>
+            <div id="polarisHomeCard"></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-milestones" aria-labelledby="milestonesTitle">
+          <div class="section-title page-title">
+            <h2 id="milestonesTitle">里程碑</h2>
+            <button class="primary-button compact-button" id="addMilestoneButton" type="button">＋</button>
+          </div>
+          <div class="timeline" id="milestoneList"></div>
+        </section>
+
+        <section class="view" id="view-polaris" aria-labelledby="polarisTitle">
+          <div class="section-title page-title">
+            <h2 id="polarisTitle">阶段奖励</h2>
+            <button class="secondary-button compact-button" id="editPolarisButton" type="button">编辑</button>
+          </div>
+          <div id="polarisView"></div>
+        </section>
+
+        <section class="view" id="view-settings" aria-labelledby="settingsTitle">
+          <div class="section-title page-title">
+            <h2 id="settingsTitle">设置</h2>
+          </div>
+          <section class="settings-grid">
+            <button class="setting-tile" id="settingsStartButton" type="button">
+              <span>⚙</span>
+              <strong>起点日期</strong>
+              <small id="settingsStartValue">未设置</small>
+            </button>
+            <button class="setting-tile" id="exportButton" type="button">
+              <span>⤓</span>
+              <strong>导出 JSON</strong>
+              <small>本机备份</small>
+            </button>
+            <button class="setting-tile" id="importButton" type="button">
+              <span>⤒</span>
+              <strong>导入 JSON</strong>
+              <small>覆盖当前</small>
+            </button>
+            <button class="setting-tile" id="shareSettingsButton" type="button">
+              <span>⇪</span>
+              <strong>分享快照</strong>
+              <small>跨设备打开</small>
+            </button>
+          </section>
+          <section class="settings-note">
+            <strong>共享模式</strong>
+            <p>当前版本使用本地存储。分享链接会带上一次性快照，另一台设备打开后会拥有自己的本地副本。</p>
+          </section>
+          <button class="danger-button wide-button" id="resetButton" type="button">清空本机数据</button>
+          <input class="sr-only" id="importFile" type="file" accept="application/json,.json" />
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="主导航">
+        <button class="nav-button active" type="button" data-tab="home"><span>▣</span>计时</button>
+        <button class="nav-button" type="button" data-tab="milestones"><span>◆</span>里程碑</button>
+        <button class="nav-button" type="button" data-tab="polaris"><span>★</span>奖励</button>
+        <button class="nav-button" type="button" data-tab="settings"><span>▤</span>设置</button>
+      </nav>
+    </div>
+
+    <div class="modal-backdrop" id="startModal" aria-hidden="true">
+      <form class="modal-box" id="startForm">
+        <div class="section-title">
+          <h2>起点日期</h2>
+          <button class="icon-button" type="button" data-close-modal="startModal" aria-label="关闭">×</button>
+        </div>
+        <label class="field">
+          <span>第一天</span>
+          <input id="startDateInput" type="date" min="1970-01-01" required />
+        </label>
+        <p class="form-note" id="startDateNote">修改后会重算预设里程碑。</p>
+        <button class="primary-button wide-button" type="submit">确认起跑</button>
+      </form>
+    </div>
+
+    <div class="modal-backdrop" id="milestoneModal" aria-hidden="true">
+      <form class="modal-box" id="milestoneForm">
+        <div class="section-title">
+          <h2 id="milestoneModalTitle">添加里程碑</h2>
+          <button class="icon-button" type="button" data-close-modal="milestoneModal" aria-label="关闭">×</button>
+        </div>
+        <input id="milestoneIdInput" type="hidden" />
+        <label class="field">
+          <span>名称</span>
+          <input id="milestoneNameInput" type="text" maxlength="18" required placeholder="第一次旅行" />
+        </label>
+        <label class="field">
+          <span>日期</span>
+          <input id="milestoneDateInput" type="date" min="1970-01-01" required />
+        </label>
+        <label class="field">
+          <span>备注</span>
+          <textarea id="milestoneNoteInput" maxlength="80" rows="3" placeholder="写一点点就好"></textarea>
+        </label>
+        <button class="primary-button wide-button" type="submit">钉到赛道</button>
+      </form>
+    </div>
+
+    <div class="modal-backdrop" id="polarisModal" aria-hidden="true">
+      <form class="modal-box" id="polarisForm">
+        <div class="section-title">
+          <h2>阶段奖励</h2>
+          <button class="icon-button" type="button" data-close-modal="polarisModal" aria-label="关闭">×</button>
+        </div>
+        <label class="field">
+          <span>共同目标</span>
+          <input id="stageNameInput" type="text" maxlength="22" required placeholder="一起完成 7 天早睡" />
+        </label>
+        <label class="field">
+          <span>解锁奖励</span>
+          <input id="stageRewardInput" type="text" maxlength="24" required placeholder="周末火锅 / 小旅行" />
+        </label>
+        <label class="field">
+          <span>说明</span>
+          <textarea id="stageNoteInput" maxlength="90" rows="3" placeholder="可写规则、约定或完成标准"></textarea>
+        </label>
+        <button class="primary-button wide-button" type="submit">保存阶段</button>
+      </form>
+    </div>
+
+    <div class="modal-backdrop" id="shareImportModal" aria-hidden="true">
+      <div class="modal-box">
+        <div class="section-title">
+          <h2>发现快照</h2>
+          <button class="icon-button" type="button" id="dismissSharedData" aria-label="关闭">×</button>
+        </div>
+        <p class="form-note">是否导入这份像素马拉松数据？</p>
+        <div class="button-row">
+          <button class="secondary-button" id="dismissSharedDataAlt" type="button">忽略</button>
+          <button class="primary-button" id="acceptSharedData" type="button">导入</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="celebration" id="celebration" aria-hidden="true">
+      <div class="celebration-stage" id="celebrationPixels"></div>
+      <div class="celebration-message">
+        <strong id="celebrationTitle">达成！</strong>
+        <span>继续向前跑</span>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
